@@ -49,19 +49,19 @@ $$__SECONDARY_SCRIPTS_SYNTAX_AND_USAGE__$$
 
 ======>__MANAGE_URL_MONITOR_TIMER.SH__<======
 
-Temporarily pause for 10 minutes:
+--Temporarily pause for 10 minutes:--
 ./manage_url_monitor_timer.sh pause 10
 
-Pause indefinitely until manually resumed:
+--Pause indefinitely until manually resumed:--
 ./manage_url_monitor_timer.sh pause 0
 
-Resume timer manually:
+--Resume timer manually:--
 ./manage_url_monitor_timer.sh resume
 
-Permanently disable and uninstall service and timer:
+--Permanently disable and uninstall service and timer:--
 ./manage_url_monitor_timer.sh disable
 
-Check status of timer and service:
+--Check status of timer and service:--
 ./manage_url_monitor_timer.sh status
 
 ======>__CHECK_URL_MONITOR_HEARTBEAT.SH__<======
@@ -81,7 +81,11 @@ IF YOU NEED TO ADD or REMOVE URLS or EMAIL IDS - FOLLOW THE BELOW
 
 ---------------------------------------------------___STEP_7_____---------------------------------------------------
 
+URL Down History Logs are located at /var/log/url_monitor.log
+
+---------------------------------------------------___STEP_8_____---------------------------------------------------
+
 Any issue / suggestions / improvement Reach out to https://github.com/rajmohanacharya/
 
-
 --------------------------------------------------------------------------------------------------------------------
+
