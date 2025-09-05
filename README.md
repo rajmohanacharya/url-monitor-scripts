@@ -1,5 +1,5 @@
 # GOAL # 
-Monitor URLs from any Linux Server via Bash Scripts for X minutes and if they are DOWN, alert via Email | Slack
+Monitor URLs from any Linux Server via Bash Scripts for Every X minutes and if they are DOWN, alert via Email | Slack
 
 # URL Monitor Scripts
 
@@ -14,6 +14,7 @@ This repository contains bash scripts and systemd configuration to monitor a lis
 - State tracking per URL to avoid alert spam.
 - Systemd timer for automated periodic execution.
 - Scripts to manage systemd timer (pause, resume, disable).
+- Self Healing, Self Start mechanism, catering to Server Reboot or Manual Killing of Script Processes
 
 ## Files
 
