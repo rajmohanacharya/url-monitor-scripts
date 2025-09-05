@@ -2,6 +2,8 @@
 
 >>> Download of Scripts and Setup to be performed as ROOT
 >>> It is expected or assumed that URLs to be MONITORED from this server, are already tested / verified REACHABLE and showing HTTP_CODE either 2XX or 3XX, Else Please select a different working machine or work with Network / Server team and ALLOW ports from Destination URL to this SERVER
+>>> It is expected or assumed that Linux Machine has POSTFIX Installed and SMTP Setup Done else, please configure
+>>> It is expected that Linux Machine has necessary network ports allowed to Slack WebHool URL, (test this via CURL against the URL), else, Please work with your Org Network Team and get this to work
 
 ---------------------------------------------------___STEP_2_____---------------------------------------------------
 
@@ -80,5 +82,6 @@ IF YOU NEED TO ADD or REMOVE URLS or EMAIL IDS - FOLLOW THE BELOW
 ---------------------------------------------------___STEP_7_____---------------------------------------------------
 
 Any issue / suggestions / improvement Reach out to https://github.com/rajmohanacharya/
+
 
 --------------------------------------------------------------------------------------------------------------------
