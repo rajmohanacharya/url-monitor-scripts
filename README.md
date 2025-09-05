@@ -28,19 +28,7 @@ This repository contains bash scripts and systemd configuration to monitor a lis
 
 ## Usage
 
-## REFER readme_step_by_step.txt for STEP BY STEP INSTRUCTIONS ##
-
-
-1. Run `setup_url_monitor.sh` as root/sudo to install and configure:
-
-sudo ./setup_url_monitor.sh
-
-
-2. Follow prompts to enter URLs, emails, Slack webhook, and check interval.
-
-3. Use `manage_url_monitor_timer.sh` to pause, resume, or disable the service as needed.
-
-4. Logs are located at `/var/log/url_monitor.log`.
+## REFER **readme_step_by_step.txt** for STEP BY STEP INSTRUCTIONS ##
 
 ## License
 
