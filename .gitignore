@@ -1,0 +1,6 @@
+# Ignore runtime state and logs
+/tmp/url_monitor_states/
+/tmp/url_monitor_heartbeat
+/var/log/url_monitor.log*
+# Ignore systemd service files (optional)
+/etc/systemd/system/url_monitor.*
