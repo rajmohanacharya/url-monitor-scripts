@@ -51,5 +51,5 @@ Raj Mohan Acharya
 
 ## SCRIPT WORKFLOW ##
 
-<img width="1024" height="1536" alt="script-workflow" src="https://github.com/user-attachments/assets/11163db2-c3bd-4cfa-ad75-92b837645e8c" />
+<img width="512" height="768" alt="script-workflow" src="https://github.com/user-attachments/assets/11163db2-c3bd-4cfa-ad75-92b837645e8c" />
 
