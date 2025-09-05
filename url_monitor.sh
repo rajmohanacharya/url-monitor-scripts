@@ -165,7 +165,7 @@ send_alert() {
         if [ -n "$subject" ]; then
             # Send email alert to all configured recipients
             for recipient in "${EMAILS[@]}"; do
-                echo -e "From: \"$from\"\nTo: $recipient\nSubject: $subject\n\n$body" | sendmail -t
+                echo -e "From: \"$from\"\nTo: $recipient\nSubject: $subject\n\n$body" | sendmail -f "donotreply" -t
             done
 
             # Slack alert (skips if webhook not set)
@@ -196,5 +196,6 @@ monitor_urls() {
 
     date +%s > "$HEARTBEAT_FILE"
 }
+
 
 monitor_urls
