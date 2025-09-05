@@ -27,7 +27,7 @@ This repository contains bash scripts and systemd configuration to monitor a lis
 
 ## Usage
 
-## REFER readme_step_by_step.txt for STEP BY STEP INSTRUCTIONS ###
+## REFER readme_step_by_step.txt for STEP BY STEP INSTRUCTIONS ##
 
 
 1. Run `setup_url_monitor.sh` as root/sudo to install and configure:
@@ -48,3 +48,8 @@ MIT License
 ## Author
 
 Raj Mohan Acharya
+
+## SCRIPT WORKFLOW ##
+
+<img width="1024" height="1536" alt="script-workflow" src="https://github.com/user-attachments/assets/11163db2-c3bd-4cfa-ad75-92b837645e8c" />
+
