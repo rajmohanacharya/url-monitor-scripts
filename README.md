@@ -28,6 +28,12 @@ This repository contains bash scripts and systemd configuration to monitor a lis
 
 ## Usage
 
+The provided **.sh scripts** have been secured using encryption. To obtain access, please contact me directly.
+I will provide the required password and decryption instructions upon request.
+
+Significant time and effort have been invested in developing and securing these scripts. As outlined in the LICENSE agreement, distribution is not free. 
+Please review the LICENSE for full details regarding usage and distribution terms.
+
 ## REFER **readme_step_by_step.txt** for STEP BY STEP INSTRUCTIONS ##
 
 ## License
