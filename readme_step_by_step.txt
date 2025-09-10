@@ -15,4 +15,24 @@ Run -> sudo bash setup_url_monitor.sh
 - Creates the monitoring config and systemd units.
 - Starts the scheduled monitor service.
 
+## Monitor Administration (url_monitor_admin.sh)
 
+<sudo bash url_monitor_admin.sh>
+
+# Interactive options:
+
+- Pause monitoring: Temporarily stop all checks/scheduled alerts (systemd stop).
+- Resume monitoring: Restart all checks (systemd start).
+- Add/Remove URLs: Edit the list of monitored URLs on the fly.
+- Add/Remove Emails: Update recipient list for alerts.
+- Set Slack Webhook: Change or disable Slack notifications.
+- Show Config: Review your effective /etc/url_monitor_config.conf.
+- All changes take immediate effect on the next scheduled monitor run.
+- Uninstall : Remove everything (systemd / config / log files)
+
+## How Monitoring & Scheduling Work
+
+- url_monitor.sh runs your checks, logging results and sending alerts.
+- url_monitor.service tells systemd how to run the monitoring script.
+- url_monitor.timer schedules the job at the specified interval.
+- Logs are rotated automatically and written to /var/log/url_monitor.log by default.
