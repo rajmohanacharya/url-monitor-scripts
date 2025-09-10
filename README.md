@@ -47,9 +47,11 @@ Raj Mohan Acharya
 
 ## Sample Screenshots ##
 
-<img width="866" height="296" alt="image" src="https://github.com/user-attachments/assets/785db99f-7992-4cba-9f88-64095ae1a92b" />
+<img width="1175" height="509" alt="image" src="https://github.com/user-attachments/assets/8b4c980d-66a6-4ea7-804c-8e6976f2e130" />
 
-<img width="1157" height="187" alt="image" src="https://github.com/user-attachments/assets/dca4b2ed-9389-48d0-ab38-7f2de4f7ea7a" />
+<img width="873" height="568" alt="image" src="https://github.com/user-attachments/assets/2cd2ef55-9ed4-41f1-b20d-fbbb9ca28c82" />
+
+<img width="980" height="366" alt="image" src="https://github.com/user-attachments/assets/8affd020-fd2f-4fec-9df2-2622e66d05dd" />
 
 <img width="595" height="71" alt="image" src="https://github.com/user-attachments/assets/48aa13ef-7f22-4fad-83d2-0da7eee57ee4" />
 
@@ -61,7 +63,9 @@ Raj Mohan Acharya
 
 <img width="1155" height="360" alt="image" src="https://github.com/user-attachments/assets/a11bed14-2120-4ca5-b54c-a0994ec9c500" />
 
-<img width="834" height="110" alt="image" src="https://github.com/user-attachments/assets/8676820e-98cb-478f-8ac0-cdbe14ce4e72" />
+<img width="766" height="471" alt="image" src="https://github.com/user-attachments/assets/4b44dbbd-9bc1-4543-aa64-da4e57c591bb" />
+
+
 
 
 
