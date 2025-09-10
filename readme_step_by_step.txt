@@ -17,7 +17,7 @@ Run -> sudo bash setup_url_monitor.sh
 
 ## Monitor Administration (url_monitor_admin.sh)
 
-sudo bash url_monitor_admin.sh
+```sudo bash url_monitor_admin.sh```
 
 # Interactive options:
 
@@ -36,4 +36,5 @@ sudo bash url_monitor_admin.sh
 - url_monitor.service tells systemd how to run the monitoring script.
 - url_monitor.timer schedules the job at the specified interval.
 - Logs are rotated automatically and written to /var/log/url_monitor.log by default.
+
 
