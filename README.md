@@ -26,6 +26,12 @@ This repository contains bash scripts and systemd configuration to monitor a lis
 - `/tmp/url_monitor_heartbeat` - Timestamp file updated on each successful run.
 - `/var/log/url_monitor.log` - Log file with rotation and compression.
 
+## Services
+
+- `/etc/systemd/system/url_monitor.service` - how to run the script - url_monitor.sh
+- `/etc/systemd/system/url_monitor.timer` - when to run the script automatically, by starting the service at scheduled times
+
+
 ## Usage
 
 The provided **.sh scripts** have been secured using encryption. To obtain access, please contact me directly.
