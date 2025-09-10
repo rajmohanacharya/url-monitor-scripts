@@ -8,9 +8,12 @@
 
 ## Initial Interactive Setup
 
+$$__ALL_STEPS_TO_BE_RUN_AS_ROOT__$$
+
 1. Copy ```url_monitor.sh to /usr/local/bin```
 2. chmod +x url_monitor.sh
-3. Run -> ```sudo bash setup_url_monitor.sh```
+3. Copy rest of the scripts to any directory of your choice and enable chmod +x
+4. run setup_url_monitor.sh
 
 - Guides you through adding URLs, alert emails, Slack webhook, polling interval, and failure threshold (1-10).
 - Creates the monitoring config and systemd units.
@@ -44,6 +47,7 @@
 - All configuration is managed in /etc/url_monitor_config.conf.
 - To change failure threshold or alert destinations, use the admin tool.
 - For custom intervals or service options, rerun setup or edit systemd units directly.
+
 
 
 
