@@ -11,4 +11,8 @@
 Copy url_monitor.sh to /usr/local/bin
 Run -> sudo bash setup_url_monitor.sh
 
+- Guides you through adding URLs, alert emails, Slack webhook, polling interval, and failure threshold (1-10).
+- Creates the monitoring config and systemd units.
+- Starts the scheduled monitor service.
+
 
