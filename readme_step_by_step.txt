@@ -27,6 +27,7 @@ Run -> ```sudo bash setup_url_monitor.sh```
 - Add/Remove Emails: Update recipient list for alerts.
 - Set Slack Webhook: Change or disable Slack notifications.
 - Show Config: Review your effective /etc/url_monitor_config.conf.
+- Show last URL Runtime and its Statuses
 - All changes take immediate effect on the next scheduled monitor run.
 - Uninstall : Remove everything (systemd / config / log files)
 
@@ -42,4 +43,5 @@ Run -> ```sudo bash setup_url_monitor.sh```
 - All configuration is managed in /etc/url_monitor_config.conf.
 - To change failure threshold or alert destinations, use the admin tool.
 - For custom intervals or service options, rerun setup or edit systemd units directly.
+
 
