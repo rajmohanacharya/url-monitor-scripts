@@ -1,11 +1,9 @@
 #!/bin/bash
-
-# Created by RajMohanAcharya - Enhanced with consecutive failure alert logic
-# Store this file under /usr/local/bin , enable chmod +x,  then run setup_url_monitor.sh
+# url_monitor.sh - URL monitoring script with interactive setup and consecutive failure alert logic
+# Created and enhanced by RajMohanAcharya
 
 POSTFIX_CONF="/etc/postfix/main.cf"
 
-# Check postfix installed and running (unchanged)
 check_postfix() {
   if ! command -v postfix &>/dev/null; then
     echo "Postfix is not installed. Please install and configure Postfix before running this script."
@@ -42,11 +40,15 @@ check_postfix
 CONFIG_FILE="/etc/url_monitor_config.conf"
 STATE_DIR="/tmp/url_monitor_states"
 HEARTBEAT_FILE="/tmp/url_monitor_heartbeat"
+LOG_FILE="/var/log/url_monitor.log"
+MAX_SIZE=$((1024 * 1024 * 1024)) # 1GB
+HOSTNAME=$(hostname)
+
 mkdir -p "$STATE_DIR"
 
-# Interactive setup on first run or if config missing
-if [ ! -f "$CONFIG_FILE" ]; then
-  echo "No config file detected. Running interactive setup..."
+# Interactive config setup if config file not present or empty
+if [ ! -s "$CONFIG_FILE" ]; then
+  echo "No config file detected or config file is empty. Running interactive setup..."
 
   # URLs input
   echo "Enter URLs to monitor (one per line). Enter an empty line to finish:"
@@ -56,7 +58,6 @@ if [ ! -f "$CONFIG_FILE" ]; then
     [[ -z "$url" ]] && break
     URLS+=("$url")
   done
-
   if [ "${#URLS[@]}" -eq 0 ]; then
     echo "No URLs entered. Exiting."
     exit 1
@@ -70,7 +71,6 @@ if [ ! -f "$CONFIG_FILE" ]; then
     [[ -z "$email" ]] && break
     EMAILS+=("$email")
   done
-
   if [ "${#EMAILS[@]}" -eq 0 ]; then
     echo "No email IDs entered. Exiting."
     exit 1
@@ -109,15 +109,11 @@ if [ ! -f "$CONFIG_FILE" ]; then
     echo "FAILURE_THRESHOLD=$FAILURE_THRESHOLD"
   } | sudo tee "$CONFIG_FILE" > /dev/null
 
-  echo "Setup complete. Config saved to $CONFIG_FILE"
+  echo "Setup complete. Configuration saved to $CONFIG_FILE"
   exit 0
 fi
 
 source "$CONFIG_FILE"
-
-LOG_FILE="/var/log/url_monitor.log"
-MAX_SIZE=$((1024 * 1024 * 1024)) # 1GB
-HOSTNAME=$(hostname)
 
 send_slack_alert() {
   local message="$1"
@@ -148,9 +144,7 @@ send_alert() {
   local state_file="$3"
   local fail_count="$4"
   local prev_state="UNKNOWN"
-
   [ -f "$state_file" ] && prev_state=$(cat "$state_file")
-
   if [ "$cur_state" == "DOWN" ]; then
     if [ "$fail_count" -eq "$FAILURE_THRESHOLD" ]; then
       local subject="URL: $url is Down"
@@ -161,23 +155,21 @@ send_alert() {
   elif [ "$cur_state" == "UP" ] && [ "$prev_state" == "DOWN" ]; then
     local subject="URL: $url is UP"
     local body="The monitored URL: $url has recovered and is UP as of $(date)."
-    # Reset fail_count on recovery
     local fail_count_file="$STATE_DIR/$(echo -n "$url" | md5sum | cut -d' ' -f1).failcount"
     echo "0" > "$fail_count_file"
   else
-    # No alert for other cases
     return
   fi
-
   if [ -n "$subject" ]; then
     local from="URL Monitor Bash Script <donotreply>"
     for recipient in "${EMAILS[@]}"; do
-      echo -e "From: \"URL Monitor Bash Script\" <donotreply>\nTo: $recipient\nSubject: $subject\n\n$body" | sendmail -f donotreply -t
+      echo -e "From: $from\nTo: $recipient\nSubject: $subject\n\n$body" | sendmail -f donotreply -t
     done
     send_slack_alert "$subject - $body"
   fi
-
-  echo "$cur_state" > "$state_file"
+  if ! echo "$cur_state" > "$state_file"; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Unable to write state $cur_state to $state_file" >> "$LOG_FILE"
+  fi
 }
 
 monitor_urls() {
@@ -185,24 +177,19 @@ monitor_urls() {
   for url in "${URLS[@]}"; do
     local state_file="$STATE_DIR/$(echo -n "$url" | md5sum | cut -d' ' -f1).state"
     local fail_count_file="$STATE_DIR/$(echo -n "$url" | md5sum | cut -d' ' -f1).failcount"
-
     local status_code
     status_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "$url")
     local cur_state
-
     if [[ "$status_code" =~ ^(2|3)[0-9][0-9]$ ]]; then
       cur_state="UP"
     else
       cur_state="DOWN"
       echo "$(date '+%Y-%m-%d %H:%M:%S') [$cur_state] $url status: $status_code" >> "$LOG_FILE"
     fi
-
-    # Read failure count or initialize
     local fail_count=0
     if [ -f "$fail_count_file" ]; then
       fail_count=$(cat "$fail_count_file")
     fi
-
     if [ "$cur_state" == "DOWN" ]; then
       fail_count=$((fail_count + 1))
       echo "$fail_count" > "$fail_count_file"
@@ -210,11 +197,12 @@ monitor_urls() {
       fail_count=0
       echo "0" > "$fail_count_file"
     fi
-
+    if ! echo "$cur_state" > "$state_file"; then
+      echo "$(date '+%Y-%m-%d %H:%M:%S') [ERROR] Unable to write state $cur_state to $state_file" >> "$LOG_FILE"
+    fi
     send_alert "$url" "$cur_state" "$state_file" "$fail_count"
   done
   date +%s > "$HEARTBEAT_FILE"
 }
 
 monitor_urls
-
