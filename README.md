@@ -13,6 +13,7 @@ A robust Bash-based URL monitoring system for Linux, featuring persistent alerti
 - Systemd integration (url_monitor.service and url_monitor.timer) for robust scheduling
 - Interactive setup
 - Admin tool (url_monitor_admin.sh): Pause/resume monitor, interactively add/remove URLs, emails, or Slack webhook, Uninstall Entire Setup (i.e, remove systemd service, log files, config files, script files)
+- Log file with rotation and compression to avoid space utilization by the scripts
 
 ## Files
 
