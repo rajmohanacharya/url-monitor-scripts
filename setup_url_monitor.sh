@@ -1,7 +1,8 @@
 #!/bin/bash
-#Created by RajMohanAcharya
+# Created and Enhanced by RajMohanAcharya
 
 SCRIPT_PATH="/usr/local/bin/url_monitor.sh"
+CONFIG_FILE="/etc/url_monitor_config.conf"
 SERVICE_PATH="/etc/systemd/system/url_monitor.service"
 TIMER_PATH="/etc/systemd/system/url_monitor.timer"
 
@@ -10,10 +11,20 @@ if [ ! -f "$SCRIPT_PATH" ]; then
     exit 1
 fi
 
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Configuration file $CONFIG_FILE not found."
+    echo "It seems $SCRIPT_PATH has not been run for initial setup."
+    echo "Running $SCRIPT_PATH now to create configuration interactively."
+    sudo bash "$SCRIPT_PATH"
+    if [ ! -f "$CONFIG_FILE" ]; then
+        echo "Configuration file still missing after running $SCRIPT_PATH. Exiting setup."
+        exit 1
+    fi
+fi
+
 # Prompt user for interval in minutes
 while true; do
     read -p "Enter how often to run the url_monitor script (in minutes, min 2 max 60): " INTERVAL_MIN
-
     # Check if integer and in the allowed range
     if [[ "$INTERVAL_MIN" =~ ^[0-9]+$ ]] && [ "$INTERVAL_MIN" -ge 2 ] && [ "$INTERVAL_MIN" -le 60 ]; then
         break
@@ -55,9 +66,6 @@ sudo systemctl enable --now url_monitor.timer
 
 echo "Systemd service and timer installed and started."
 echo "Timer interval set to every $INTERVAL_MIN minute(s)."
-
 echo "Running the URL monitor script once for initial configuration..."
 sudo bash "$SCRIPT_PATH"
-
 echo "Setup complete. Subsequent runs will be automatic every $INTERVAL_MIN minute(s)."
-
