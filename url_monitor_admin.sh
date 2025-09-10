@@ -72,6 +72,22 @@ set_slack_webhook() {
     echo "Slack webhook updated."
 }
 
+change_failure_threshold() {
+    echo "Current FAILURE_THRESHOLD value:"
+    current_threshold=$(grep '^FAILURE_THRESHOLD=' "$CONFIG_FILE" | cut -d'=' -f2)
+    echo "  $current_threshold"
+    while true; do
+        read -p "Enter new number of consecutive failures before triggering alert (1-10): " new_threshold
+        if [[ "$new_threshold" =~ ^[0-9]+$ ]] && [ "$new_threshold" -ge 1 ] && [ "$new_threshold" -le 10 ]; then
+            sudo sed -i "s/^FAILURE_THRESHOLD=.*/FAILURE_THRESHOLD=$new_threshold/" "$CONFIG_FILE"
+            echo "FAILURE_THRESHOLD updated to $new_threshold"
+            break
+        else
+            echo "Invalid input. Please enter an integer between 1 and 10."
+        fi
+    done
+}
+
 uninstall_monitor() {
     echo "Uninstalling URL Monitor..."
 
@@ -133,10 +149,11 @@ while true; do
     echo "5. Add alert Email"
     echo "6. Remove alert Email"
     echo "7. Set Slack Webhook URL"
-    echo "8. Show configuration"
-    echo "9. Uninstall monitor (remove service, timer, config, logs)"
-    echo "10. Exit"
-    read -p "Select an action [1-10]: " choice
+    echo "8. Change consecutive failure alert threshold"
+    echo "9. Show configuration"
+    echo "10. Uninstall monitor (remove service, timer, config, logs)"
+    echo "11. Exit"
+    read -p "Select an action [1-11]: " choice
 
     case $choice in
         1) pause_monitor ;;
@@ -146,10 +163,10 @@ while true; do
         5) add_email ;;
         6) remove_email ;;
         7) set_slack_webhook ;;
-        8) print_config ;;
-        9) uninstall_monitor ;;
-        10) echo "Exiting admin tool."; exit 0 ;;
+        8) change_failure_threshold ;;
+        9) print_config ;;
+        10) uninstall_monitor ;;
+        11) echo "Exiting admin tool."; exit 0 ;;
         *) echo "Invalid choice. Try again." ;;
     esac
 done
-
