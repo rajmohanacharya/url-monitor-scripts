@@ -19,6 +19,7 @@ A robust Bash-based URL monitoring system for Linux, featuring persistent alerti
 - `url_monitor.sh` - Main monitoring script.
 - `setup_url_monitor.sh` - Interactive installer for systemd service and timer.
 - `url_monitor_admin.sh` - Interactive administrator tool for pausing/resuming, adding/removing URLs/emails/SlackWebhook.
+- `check_url_monitor_heartbeat_encrypted.sh` - To Check Last Script RunTime vs Current Time.
 - `/etc/url_monitor_config.conf` - Config file storing URLs, emails, and Slack webhook (created after setup).
 - `/tmp/url_monitor_states/` - Directory storing per-URL state files (created during runtime).
 - `/tmp/url_monitor_heartbeat` - Timestamp file updated on each successful run.
