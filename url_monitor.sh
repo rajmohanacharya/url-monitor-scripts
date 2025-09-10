@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Created by RajMohanAcharya - Enhanced with consecutive failure alert logic
-# Store this file under /usr/local/bin and then run setup_url_monitor.sh
+# Store this file under /usr/local/bin , enable chmod +x,  then run setup_url_monitor.sh
 
 POSTFIX_CONF="/etc/postfix/main.cf"
 
@@ -217,3 +217,4 @@ monitor_urls() {
 }
 
 monitor_urls
+
