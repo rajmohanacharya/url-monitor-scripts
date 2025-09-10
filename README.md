@@ -47,7 +47,7 @@ Raj Mohan Acharya
 
 ## Sample Screenshots ##
 
-<img width="1175" height="509" alt="image" src="https://github.com/user-attachments/assets/8b4c980d-66a6-4ea7-804c-8e6976f2e130" />
+<img width="1145" height="641" alt="image" src="https://github.com/user-attachments/assets/656e0be9-9b63-4e39-ab14-3d62e41bf5ad" />
 
 <img width="873" height="568" alt="image" src="https://github.com/user-attachments/assets/2cd2ef55-9ed4-41f1-b20d-fbbb9ca28c82" />
 
