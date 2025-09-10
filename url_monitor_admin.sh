@@ -1,4 +1,5 @@
 #!/bin/bash
+# Created by RajMohanAcharya
 
 CONFIG_FILE="/etc/url_monitor_config.conf"
 SERVICE_NAME="url_monitor.service"
@@ -151,3 +152,4 @@ while true; do
         *) echo "Invalid choice. Try again." ;;
     esac
 done
+
