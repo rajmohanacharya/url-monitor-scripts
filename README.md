@@ -1,26 +1,24 @@
 # GOAL # 
-Monitor URLs from any Linux Server via Bash Scripts for Every X minutes and if they are DOWN, alert via Email | Slack
+Monitor URLs from any Linux Server via Bash Scripts for Every X minutes and if they are persistently DOWN after configured Y minutes,  alert via Email | Slack
 
 # URL Monitor Scripts
 
-This repository contains bash scripts and systemd configuration to monitor a list of URLs periodically, send email and Slack alerts on downtime or recovery, and manage the monitoring service using systemd timers.
+A robust Bash-based URL monitoring system for Linux, featuring persistent alerting, automated scheduling with systemd, and interactive administration.
 
 ## Features
 
-- Interactive setup for URLs, multiple email recipients, and Slack webhook.
-- Checks URL status at configurable intervals.
-- Sends email and Slack alerts on URL status changes.
-- Maintains logs with automatic rotation and compression.
-- State tracking per URL to avoid alert spam.
-- Systemd timer for automated periodic execution.
-- Scripts to manage systemd timer (pause, resume, disable).
-- Self Healing, Self Start mechanism, catering to Server Reboot or Manual Killing of Script Processes
+- URL and service health monitoring with automatic polling at configurable intervals
+- Email and Slack notifications for downtime and recovery
+- Configurable threshold for consecutive failures before alerts fire
+- Systemd integration (url_monitor.service and url_monitor.timer) for robust scheduling
+- Interactive setup
+- Admin tool (url_monitor_admin.sh): Pause/resume monitor, interactively add/remove URLs, emails, or Slack webhook
 
 ## Files
 
 - `url_monitor.sh` - Main monitoring script.
 - `setup_url_monitor.sh` - Interactive installer for systemd service and timer.
-- `manage_url_monitor_timer.sh` - Script to pause, resume, or disable the monitor timer.
+- `url_monitor_admin.sh` - Interactive administrator tool for pausing/resuming, adding/removing URLs/emails/SlackWebhook.
 - `/etc/url_monitor_config.conf` - Config file storing URLs, emails, and Slack webhook (created after setup).
 - `/tmp/url_monitor_states/` - Directory storing per-URL state files (created during runtime).
 - `/tmp/url_monitor_heartbeat` - Timestamp file updated on each successful run.
