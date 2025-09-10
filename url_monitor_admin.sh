@@ -1,6 +1,5 @@
 #!/bin/bash
-# Created by RajMohanAcharya
-
+# Created and Enhanced by RajMohanAcharya
 CONFIG_FILE="/etc/url_monitor_config.conf"
 SERVICE_NAME="url_monitor.service"
 TIMER_NAME="url_monitor.timer"
@@ -45,7 +44,8 @@ add_url() {
 
 remove_url() {
     read -p "Enter URL to remove: " rem_url
-    sudo sed -i "/\"$rem_url\"/d" "$CONFIG_FILE"
+    # Escape special characters for sed by using | as delimiter
+    sudo sed -i "\|\"$rem_url\"|d" "$CONFIG_FILE"
     echo "URL removed (if it existed)."
 }
 
@@ -88,14 +88,54 @@ change_failure_threshold() {
     done
 }
 
+show_last_runtime_and_statuses() {
+    if [ ! -f "$HEARTBEAT_FILE" ]; then
+        echo "No recorded last runtime found. The monitor script may not have run yet."
+        return
+    fi
+    last_run_epoch=$(cat "$HEARTBEAT_FILE")
+    last_run_human=$(date -d "@$last_run_epoch" "+%Y-%m-%d %H:%M:%S")
+    current_epoch=$(date +%s)
+    current_human=$(date "+%Y-%m-%d %H:%M:%S")
+    diff_sec=$((current_epoch - last_run_epoch))
+
+    if [ "$diff_sec" -lt 60 ]; then
+        age="${diff_sec} seconds ago"
+    elif [ "$diff_sec" -lt 3600 ]; then
+        age="$((diff_sec/60)) minutes ago"
+    else
+        age="$((diff_sec/3600)) hours and $(((diff_sec%3600)/60)) minutes ago"
+    fi
+
+    echo "Last monitor script run: $last_run_human ($age)"
+    echo "Current time: $current_human"
+    echo
+    echo "Current URL statuses:"
+
+    if [ ! -f "$CONFIG_FILE" ]; then
+        echo "Config file not found: $CONFIG_FILE"
+        return
+    fi
+
+    source "$CONFIG_FILE"
+
+    for url in "${URLS[@]}"; do
+        state_file="$STATE_DIR/$(echo -n "$url" | md5sum | cut -d' ' -f1).state"
+        if [ -f "$state_file" ]; then
+            status=$(cat "$state_file")
+        else
+            status="UNKNOWN"
+        fi
+        echo "  $url : $status"
+    done
+}
+
 uninstall_monitor() {
     echo "Uninstalling URL Monitor..."
 
-    # Stop and disable the timer and service
     sudo systemctl stop "$SERVICE_NAME" "$TIMER_NAME"
     sudo systemctl disable "$SERVICE_NAME" "$TIMER_NAME"
 
-    # Remove systemd unit files
     if [ -f "$SERVICE_PATH" ]; then
         sudo rm -f "$SERVICE_PATH"
         echo "Removed $SERVICE_PATH"
@@ -105,16 +145,13 @@ uninstall_monitor() {
         echo "Removed $TIMER_PATH"
     fi
 
-    # Reload systemd daemons
     sudo systemctl daemon-reload
 
-    # Remove configuration file
     if [ -f "$CONFIG_FILE" ]; then
         sudo rm -f "$CONFIG_FILE"
         echo "Removed $CONFIG_FILE"
     fi
 
-    # Remove log and state files
     if [ -f "$LOG_FILE" ]; then
         sudo rm -f "$LOG_FILE"
         echo "Removed $LOG_FILE"
@@ -130,7 +167,6 @@ uninstall_monitor() {
         echo "Removed $HEARTBEAT_FILE"
     fi
 
-    # Remove main monitor script
     if [ -f "$MONITOR_SCRIPT" ]; then
         sudo rm -f "$MONITOR_SCRIPT"
         echo "Removed $MONITOR_SCRIPT"
@@ -150,10 +186,11 @@ while true; do
     echo "6. Remove alert Email"
     echo "7. Set Slack Webhook URL"
     echo "8. Change consecutive failure alert threshold"
-    echo "9. Show configuration"
-    echo "10. Uninstall monitor (remove service, timer, config, logs)"
-    echo "11. Exit"
-    read -p "Select an action [1-11]: " choice
+    echo "9. Show last monitor script runtime & URL statuses"
+    echo "10. Show configuration"
+    echo "11. Uninstall monitor (remove service, timer, config, logs)"
+    echo "12. Exit"
+    read -p "Select an action [1-12]: " choice
 
     case $choice in
         1) pause_monitor ;;
@@ -164,9 +201,10 @@ while true; do
         6) remove_email ;;
         7) set_slack_webhook ;;
         8) change_failure_threshold ;;
-        9) print_config ;;
-        10) uninstall_monitor ;;
-        11) echo "Exiting admin tool."; exit 0 ;;
+        9) show_last_runtime_and_statuses ;;
+        10) print_config ;;
+        11) uninstall_monitor ;;
+        12) echo "Exiting admin tool."; exit 0 ;;
         *) echo "Invalid choice. Try again." ;;
     esac
 done
